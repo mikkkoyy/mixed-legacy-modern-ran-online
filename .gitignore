@@ -1,0 +1,62 @@
+# ============================================================
+# RAN Online legacy source - gitignore
+# Scope: source code only. Exclude build outputs, binaries,
+# third-party vendored libs, deployed ASURA client, logs.
+# ============================================================
+
+# Visual Studio / MSBuild build outputs
+_Build/
+_Build*/
+Intermediate/
+Release/
+Debug/
+x64/
+obj/
+bin/
+*.tlog
+*.log
+*.opensdf
+*.sdf
+*.suo
+*.vcxproj.*
+*.ncb
+*.idb
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.obj
+*.o
+*.exe
+*.dll
+
+# Compiled resource / binary
+*.res
+*.aps
+
+# Deployed ASURA client / emulator (do not commit)
+ASURA CLIENT/
+_Bin/
+
+# Third-party vendored dependencies (do not commit)
+Tik/
+
+# Logs
+*.log
+**/build-audit/
+
+# Archives
+*.rar
+*.zip
+*.ico
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Editor/project user files
+*.user
+*.userosscache
+*.sln.docstates
+*.slnx
