@@ -158,6 +158,9 @@ protected:
 
 	bool				m_bRunAutoPots;
 	float				m_fBotPotsDelay;
+	int					m_nAutoPotionHP;
+	int					m_nAutoPotionMP;
+	int					m_nAutoPotionSP;
 	D3DXVECTOR3			m_vBotTargetPt;
 	SNATIVEID			m_sBotLastSkill;
 
@@ -314,6 +317,18 @@ public:
 	HRESULT	SetRunAutoPots( bool bEnable );
 	HRESULT	SetRunAutoLoot( bool bEnable );
 	bool	IsRunAutoLoot() const		{ return m_bAutoLoot; }
+	bool	IsBotSupport() const		{ return m_bBotSupport; }
+	bool	IsBotPK() const				{ return m_bBotPK; }
+	bool	IsBotResuPtLeader() const	{ return m_bResuPtLeader; }
+	bool	IsBotFollowLeader() const	{ return m_bBotFLeader; }
+	bool	IsBotLockSpot() const		{ return m_bBotLockSpot; }
+
+	void	SetAutoPotionHP( int nVal );
+	void	SetAutoPotionMP( int nVal );
+	void	SetAutoPotionSP( int nVal );
+	int		GetAutoPotionHP() const		{ return m_nAutoPotionHP; }
+	int		GetAutoPotionMP() const		{ return m_nAutoPotionMP; }
+	int		GetAutoPotionSP() const		{ return m_nAutoPotionSP; }
 
 	//dmk14 | 11-1-16 | AI - auto pilot
 	SACTIONTAR FindNearTarget( D3DXVECTOR3 &vTargetPt, const EMFIND_TAR emFINDTAR, bool bUseSkill );

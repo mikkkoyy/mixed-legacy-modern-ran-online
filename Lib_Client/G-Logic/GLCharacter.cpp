@@ -339,6 +339,9 @@ GLCharacter::GLCharacter () :
 	m_bBotLockSpot( true ),
 
 	m_bRunAutoPots( false ),
+	m_nAutoPotionHP( 80 ),
+	m_nAutoPotionMP( 50 ),
+	m_nAutoPotionSP( 50 ),
 	m_vBotTargetPt(0,0,0),
 
 	//m_dwSummonGUID(GAEAID_NULL),
@@ -632,9 +635,11 @@ void GLCharacter::ResetData ()
 	m_bBotPK = false;
 	m_bResuPtLeader = false;
 	m_bBotFLeader = false;
-	m_bBotLockSpot = true;
-
+	m_bBotLockSpot = false;
 	m_bRunAutoPots = false;
+	m_nAutoPotionHP = 80;
+	m_nAutoPotionMP = 50;
+	m_nAutoPotionSP = 50;
 	m_fBotPotsDelay = 0.0f;
 
 	m_bAutoLoot = false;
@@ -7907,6 +7912,16 @@ HRESULT GLCharacter::RunAutoPots( float fTime, float fElapsedTime )
 	int wMpPercent =  ( float(m_sMP.dwNow) / float(m_sMP.dwMax) ) * 100;
 	int wSpPercent =  ( float(m_sSP.dwNow) / float(m_sSP.dwMax) ) * 100;
 
+	int nHpThreshold = m_nAutoPotionHP;
+	int nMpThreshold = m_nAutoPotionMP;
+	int nSpThreshold = m_nAutoPotionSP;
+	if ( nHpThreshold < 1 ) nHpThreshold = 1;
+	if ( nHpThreshold > 99 ) nHpThreshold = 99;
+	if ( nMpThreshold < 1 ) nMpThreshold = 1;
+	if ( nMpThreshold > 99 ) nMpThreshold = 99;
+	if ( nSpThreshold < 1 ) nSpThreshold = 1;
+	if ( nSpThreshold > 99 ) nSpThreshold = 99;
+
 	for( int i=0;i<EMACTIONQUICK_SIZE;++i )
 	{
 		SITEM* pItem = GLItemMan::GetInstance().GetItem ( m_sACTIONQUICK[i].sNID );
@@ -7919,8 +7934,6 @@ HRESULT GLCharacter::RunAutoPots( float fTime, float fElapsedTime )
 			//}
 			//else
 			{
-				srand(time(0));
-				int nRand = rand() % 50 + 1;
 				PLANDMANCLIENT pLAND = GLGaeaClient::GetInstance().GetActiveMap();
 				if( pLAND && !pLAND->m_bPVPTyrannyMap )
 				{
@@ -7928,7 +7941,7 @@ HRESULT GLCharacter::RunAutoPots( float fTime, float fElapsedTime )
 					pItem->sDrugOp.emDrug == ITEM_DRUG_HP_MP ||
 					pItem->sDrugOp.emDrug == ITEM_DRUG_HP_MP_SP )
 					{
-						if( wHpPercent <= (80+nRand) )	ReqActionQ( (WORD) i );
+						if( wHpPercent <= nHpThreshold )	ReqActionQ( (WORD) i );
 					}
 				}
 				
@@ -7936,13 +7949,13 @@ HRESULT GLCharacter::RunAutoPots( float fTime, float fElapsedTime )
 					pItem->sDrugOp.emDrug == ITEM_DRUG_HP_MP ||
 					pItem->sDrugOp.emDrug == ITEM_DRUG_HP_MP_SP )
 				{
-					if( wMpPercent <= nRand )	ReqActionQ( (WORD) i );
+					if( wMpPercent <= nMpThreshold )	ReqActionQ( (WORD) i );
 				}
 
 				if( pItem->sDrugOp.emDrug == ITEM_DRUG_SP ||
 					pItem->sDrugOp.emDrug == ITEM_DRUG_HP_MP_SP )
 				{
-					if( wSpPercent <= nRand )	ReqActionQ( (WORD) i );
+					if( wSpPercent <= nSpThreshold )	ReqActionQ( (WORD) i );
 				}
 			}
 		}
@@ -8016,6 +8029,27 @@ HRESULT GLCharacter::SetBotSettings( bool bSupport, bool bLoot, bool bPk, bool b
 	m_bBotLockSpot = bLockSpot;
 
 	return S_OK;
+}
+
+void GLCharacter::SetAutoPotionHP( int nVal )
+{
+	if ( nVal < 1 ) nVal = 1;
+	if ( nVal > 99 ) nVal = 99;
+	m_nAutoPotionHP = nVal;
+}
+
+void GLCharacter::SetAutoPotionMP( int nVal )
+{
+	if ( nVal < 1 ) nVal = 1;
+	if ( nVal > 99 ) nVal = 99;
+	m_nAutoPotionMP = nVal;
+}
+
+void GLCharacter::SetAutoPotionSP( int nVal )
+{
+	if ( nVal < 1 ) nVal = 1;
+	if ( nVal > 99 ) nVal = 99;
+	m_nAutoPotionSP = nVal;
 }
 
 //dmk14 | 11-1-16 | AI - auto pilot

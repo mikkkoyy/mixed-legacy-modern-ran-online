@@ -4,6 +4,7 @@
 
 class CBasicTextButton;
 class CBasicTextBox;
+class CUIEditBox;
 
 class CAutoPilotSettings : public CUIWindowEx
 {
@@ -34,7 +35,16 @@ protected:
 		SETTINGS_AUTOPOTS_STOP,
 		SETTINGS_AUTOLOOT_START,
 		SETTINGS_AUTOLOOT_STOP,
-		SETTINGS_CLOSE
+		SETTINGS_CLOSE,
+
+		SETTINGS_ATTACK_SUPPORT,
+		SETTINGS_ATTACK_PK,
+		SETTINGS_ATTACK_FOLLOWLEADER,
+		SETTINGS_ATTACK_LOCKSPOT,
+		SETTINGS_ATTACK_RESURRECTLEADER,
+		SETTINGS_POTION_HP_EDIT,
+		SETTINGS_POTION_MP_EDIT,
+		SETTINGS_POTION_SP_EDIT
 	};
 
 private:
@@ -48,12 +58,23 @@ private:
 	CBasicTextBox*		m_pAttackStatus;
 	CBasicTextButton*	m_pAttackStart;
 	CBasicTextButton*	m_pAttackStop;
+	CBasicTextButton*	m_pAttackSupport;
+	CBasicTextButton*	m_pAttackPK;
+	CBasicTextButton*	m_pAttackFollowLeader;
+	CBasicTextButton*	m_pAttackLockSpot;
+	CBasicTextButton*	m_pAttackResurrectPtLeader;
 
 	// potion page
 	CBasicTextBox*		m_pPotionLabel;
 	CBasicTextBox*		m_pPotionStatus;
 	CBasicTextButton*	m_pPotionStart;
 	CBasicTextButton*	m_pPotionStop;
+	CBasicTextBox*		m_pPotionHPLabel;
+	CBasicTextBox*		m_pPotionMPLabel;
+	CBasicTextBox*		m_pPotionSPLabel;
+	CUIEditBox*			m_pPotionHPEdit;
+	CUIEditBox*			m_pPotionMPEdit;
+	CUIEditBox*			m_pPotionSPEdit;
 
 	// loot page
 	CBasicTextBox*		m_pLootLabel;
@@ -67,5 +88,13 @@ private:
 	bool				m_bLastRunBot;
 	bool				m_bLastRunAutoPots;
 	bool				m_bLastRunAutoLoot;
+	bool				m_bLastBotSupport;
+	bool				m_bLastBotPK;
+	bool				m_bLastBotFollowLeader;
+	bool				m_bLastBotLockSpot;
+	bool				m_bLastBotResuPtLeader;
+	int					m_nLastAutoPotionHP;
+	int					m_nLastAutoPotionMP;
+	int					m_nLastAutoPotionSP;
 	UIGUID				m_nCurTab;
 };
